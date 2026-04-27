@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IVF Outcome Model</title>
+<style>
+body {font-family: Arial; background:#f5f7fb; padding:20px;}
+.container {max-width:900px; margin:auto;}
+.stat-row {display:flex; gap:15px; margin-bottom:20px;}
+.stat-card {
+  flex:1; padding:15px; border-radius:10px;
+  color:white; text-align:center;
+}
+.navy {background:#0f2747;}
+.red {background:#c0392b;}
+.stat-num {font-size:22px; font-weight:bold;}
+.stat-label {font-size:14px;}
+.stat-note {font-size:12px; opacity:0.8;}
+
+.box {
+  background:white; padding:20px; border-radius:10px;
+  margin-bottom:20px;
+}
+
+input, select {
+  padding:8px; margin:5px; width:120px;
+}
+
+button {
+  padding:10px 20px; background:#0f2747; color:white;
+  border:none; border-radius:5px; cursor:pointer;
+}
+
+.result {
+  font-size:28px; font-weight:bold; margin-top:15px;
+}
+
+.pill {
+  display:inline-block;
+  background:#eaeef6;
+  padding:5px 10px;
+  border-radius:20px;
+  margin:5px;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>IVF Live Birth Prediction Model</h2>
+
+<!-- STATS -->
+<div class="stat-row">
+  <div class="stat-card navy">
+    <div class="stat-num">1.70×</div>
+    <div class="stat-label">Day 5 vs Day 6</div>
+    <div class="stat-note">p &lt; 0.001 ✓</div>
+  </div>
+
+  <div class="stat-card red">
+    <div class="stat-num">OR=0.95</div>
+    <div class="stat-label">AMH effect</div>
+    <div class="stat-note">p = 0.065 · NS</div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="box">
+<h3>Prediction Calculator</h3>
+
+AMH <input id="amh" value="2.4"><br>
+Age <input id="age" value="35"><br>
+BMI <input id="bmi" value="25"><br>
+
+Transfer Day:
+<select id="day">
+  <option value="5">Day 5</option>
+  <option value="6">Day 6</option>
+</select>
+
+Embryo Quality:
+<select id="quality">
+  <option value="1">Grade 1</option>
+  <option value="2">Grade 2</option>
+  <option value="3">Grade 3</option>
+</select>
+
+<br><br>
+<button onclick="calc()">Calculate</button>
+
+<div class="result" id="res"></div>
+<div id="details"></div>
+
+</div>
+
+<!-- CONCLUSION -->
+<div class="box">
+<h3>Key Message</h3>
+<p>
+Transfer day is the only independent predictor of live birth after euploid embryo transfer.
+Day 5 transfer significantly increases live birth odds compared to Day 6 (OR 1.70, p&lt;0.001).
+AMH is not an independent predictor.
+</p>
+</div>
+
+<!-- QR -->
+<div style="text-align:center;">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=YOUR_LINK_HERE">
+<div style="font-size:12px;">Scan for full model</div>
+</div>
+
+</div>
+
+<script>
+function calc(){
+  let amh=parseFloat(document.getElementById('amh').value);
+  let age=parseFloat(document.getElementById('age').value);
+  let bmi=parseFloat(document.getElementById('bmi').value);
+  let day=parseInt(document.getElementById('day').value);
+  let q=parseInt(document.getElementById('quality').value);
+
+  let logit = Math.log(0.518/(1-0.518));
+
+  // MODEL
+  logit += Math.log(0.954)*(amh-2.42);
+  logit += Math.log(1.00)*(age-35);
+  logit += Math.log(1.01)*(bmi-24.9);
+
+  if(day===5) logit += Math.log(1.70);
+
+  if(q===2) logit += Math.log(0.888);
+  if(q===3) logit += Math.log(0.860);
+
+  let p = 1/(1+Math.exp(-logit));
+  let pct = Math.round(p*100);
+
+  document.getElementById('res').innerHTML = pct + "%";
+
+  document.getElementById('details').innerHTML =
+    `<div class="pill">Day ${day}</div>
+     <div class="pill">Grade ${q}</div>
+     <div class="pill">AMH ${amh}</div>`;
+}
+</script>
+
+</body>
+</html>
