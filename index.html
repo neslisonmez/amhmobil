@@ -766,15 +766,8 @@ function calculate(){
 
   let logit = Math.log(0.518 / (1 - 0.518));
 
-  logit += (-0.0471 * 0.50) * (amh - 2.42);
-  logit += (0.00481 * 0.20) * (age - 35);
-  logit += (0.00676 * 0.20) * (bmi - 24.9);
-  logit += (-0.00492 * 0.20) * (endom - 9.4);
-
   if (biopsyDay === 5) logit += 0.532;
 
-  if (quality === 2) logit += (-0.118 * 0.20);
-  if (quality === 3) logit += (-0.151 * 0.20);
 
   const prob = Math.round(100 / (1 + Math.exp(-logit)));
 
