@@ -1,47 +1,46 @@
+<script>
 function calculate(){
-  const amh=parseFloat(document.getElementById('amh').value);
-  const age=parseFloat(document.getElementById('age').value);
-  const bmi=parseFloat(document.getElementById('bmi').value);
-  const diagnosis=document.getElementById('diagnosis').value;
+  const amh = parseFloat(document.getElementById('amh').value);
+  const age = parseFloat(document.getElementById('age').value);
+  const bmi = parseFloat(document.getElementById('bmi').value);
+  const diagnosis = document.getElementById('diagnosis').value;
 
   let logit = -0.432;
 
   logit += (-0.0471) * amh;
   logit += (0.00481) * age;
   logit += (0.00676) * bmi;
-
-  // Endometrium UI'da yoksa cohort average olarak 9.4 mm kullanıyoruz
   logit += (-0.00492) * 9.4;
 
-  // Reference = Day 6
-  if(biopsyDay===5) logit += 0.532;
+  if (biopsyDay === 5) logit += 0.532;
 
-  // Reference = Grade 1
-  if(quality===2) logit += -0.118;
-  if(quality===3) logit += -0.151;
+  if (quality === 2) logit += -0.118;
+  if (quality === 3) logit += -0.151;
 
-  // Reference = advanced maternal age
-  if(diagnosis==="aneuploidy") logit += -0.271;
-  if(diagnosis==="hi") logit += -0.0405;
-  if(diagnosis==="mix") logit += 0.139;
-  if(diagnosis==="tgk") logit += -0.0799;
-  if(diagnosis==="tib") logit += 0.146;
+  if (diagnosis === "aneuploidy") logit += -0.271;
+  if (diagnosis === "hi") logit += -0.0405;
+  if (diagnosis === "mix") logit += 0.139;
+  if (diagnosis === "tgk") logit += -0.0799;
+  if (diagnosis === "tib") logit += 0.146;
 
-  const prob=Math.round(100/(1+Math.exp(-logit)));
+  const prob = Math.round(100 / (1 + Math.exp(-logit)));
 
-  document.getElementById('resultPct').textContent=prob+'%';
+  document.getElementById('resultPct').textContent = prob + '%';
 
-  const grp=amh<=1.0?'Low AMH':amh<=3.5?'Normal AMH':'High AMH';
+  const grp = amh <= 1.0 ? 'Low AMH' : amh <= 3.5 ? 'Normal AMH' : 'High AMH';
 
-  document.getElementById('resultPills').innerHTML=`
+  document.getElementById('resultPills').innerHTML = `
     <div class="pill p-ns">AMH: ${grp} · OR 0.95</div>
-    <div class="pill ${biopsyDay===5?'p-good':'p-warn'}">${biopsyDay===5?'Day 5 · OR 1.70':'Day 6 · reference'}</div>
+    <div class="pill ${biopsyDay === 5 ? 'p-good' : 'p-warn'}">
+      ${biopsyDay === 5 ? 'Day 5 · OR 1.70' : 'Day 6 · reference'}
+    </div>
     <div class="pill p-ns">Grade ${quality}</div>
     <div class="pill p-ns">Age: ${age} yrs</div>
     <div class="pill p-ns">Diagnosis: ${diagnosis}</div>
   `;
 
-  const box=document.getElementById('resultBox');
+  const box = document.getElementById('resultBox');
   box.classList.add('show');
-  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  setTimeout(() => box.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
 }
+</script>
