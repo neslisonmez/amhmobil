@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>AMH & Live Birth — ESHRE 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
@@ -22,7 +23,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html { scroll-behavior: smooth; }
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
@@ -37,15 +40,19 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .hero::after {
   content: '';
   position: absolute;
-  right: -80px; bottom: -80px;
-  width: 220px; height: 220px;
+  right: -80px;
+  bottom: -80px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(30,127,116,0.25), transparent 70%);
   pointer-events: none;
 }
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -61,6 +68,7 @@ body {
   border-radius: 20px;
   margin-bottom: 14px;
 }
+
 .hero h1 {
   font-family: 'DM Serif Display', serif;
   color: #fff;
@@ -68,13 +76,22 @@ body {
   line-height: 1.35;
   margin-bottom: 10px;
 }
-.hero h1 em { color: var(--teal-light); font-style: italic; }
+
+.hero h1 em {
+  color: var(--teal-light);
+  font-style: italic;
+}
+
 .hero-meta {
   color: rgba(255,255,255,0.5);
   font-size: 0.72rem;
   line-height: 1.5;
 }
-.hero-meta strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+.hero-meta strong {
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+}
 
 .tabs {
   display: flex;
@@ -85,6 +102,7 @@ body {
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
+
 .tab {
   flex: 1;
   padding: 14px 8px;
@@ -97,12 +115,29 @@ body {
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
-.tab.active { color: var(--teal); border-bottom-color: var(--teal); }
 
-.content { padding: 20px 16px 48px; max-width: 600px; margin: 0 auto; }
+.tab.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+}
+
+.content {
+  padding: 20px 16px 48px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .panel { display: none; }
-.panel.active { display: block; animation: up 0.3s ease; }
-@keyframes up { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.panel.active {
+  display: block;
+  animation: up 0.3s ease;
+}
+
+@keyframes up {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
 
 .card {
   background: var(--white);
@@ -118,6 +153,7 @@ body {
   gap: 10px;
   margin-bottom: 14px;
 }
+
 .stat-card {
   background: var(--white);
   border-radius: var(--radius);
@@ -126,16 +162,21 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .stat-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 4px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
   background: var(--teal);
 }
+
 .stat-card.gold::before { background: var(--gold); }
 .stat-card.navy::before { background: var(--navy); }
 .stat-card.red::before { background: #c0392b; }
+
 .stat-num {
   font-family: 'DM Serif Display', serif;
   font-size: 1.9rem;
@@ -143,21 +184,54 @@ body {
   line-height: 1;
   margin-bottom: 5px;
 }
-.stat-label { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
-.stat-note { font-size: 0.63rem; color: var(--teal); font-weight: 600; margin-top: 5px; }
 
-.chart-title { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
-.chart-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; line-height: 1.4; }
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.stat-note {
+  font-size: 0.63rem;
+  color: var(--teal);
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.chart-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.chart-sub {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
 
 .field { margin-bottom: 22px; }
+
 .field-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
-.field-label span { font-size: 0.85rem; font-weight: 600; color: var(--navy); }
-.field-label strong { font-size: 1.05rem; color: var(--teal); font-weight: 700; }
+
+.field-label span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.field-label strong {
+  font-size: 1.05rem;
+  color: var(--teal);
+  font-weight: 700;
+}
 
 input[type=range] {
   width: 100%;
@@ -169,16 +243,20 @@ input[type=range] {
   outline: none;
   cursor: pointer;
 }
+
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px; height: 28px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--navy);
   border: 3px solid white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
+
 input[type=range]::-moz-range-thumb {
-  width: 28px; height: 28px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--navy);
   border: 3px solid white;
@@ -189,9 +267,17 @@ input[type=range]::-moz-range-thumb {
   justify-content: space-between;
   margin-top: 6px;
 }
-.amh-markers span { font-size: 0.6rem; color: var(--muted); }
 
-.toggle-row { display: flex; gap: 10px; }
+.amh-markers span {
+  font-size: 0.6rem;
+  color: var(--muted);
+}
+
+.toggle-row {
+  display: flex;
+  gap: 10px;
+}
+
 .toggle-btn {
   flex: 1;
   padding: 16px 8px;
@@ -207,6 +293,7 @@ input[type=range]::-moz-range-thumb {
   text-align: center;
   -webkit-tap-highlight-color: transparent;
 }
+
 .toggle-btn.on {
   border-color: var(--navy);
   background: var(--navy);
@@ -240,7 +327,11 @@ input[type=range]::-moz-range-thumb {
   letter-spacing: 0.02em;
   -webkit-tap-highlight-color: transparent;
 }
-.calc-btn:active { background: #18685e; transform: scale(0.99); }
+
+.calc-btn:active {
+  background: #18685e;
+  transform: scale(0.99);
+}
 
 .result-box {
   background: var(--navy);
@@ -251,7 +342,9 @@ input[type=range]::-moz-range-thumb {
   display: none;
   animation: up 0.4s ease;
 }
+
 .result-box.show { display: block; }
+
 .result-pct {
   font-family: 'DM Serif Display', serif;
   font-size: 5rem;
@@ -259,6 +352,7 @@ input[type=range]::-moz-range-thumb {
   line-height: 1;
   margin-bottom: 4px;
 }
+
 .result-lbl {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.5);
@@ -267,6 +361,7 @@ input[type=range]::-moz-range-thumb {
   letter-spacing: 0.1em;
   margin-bottom: 20px;
 }
+
 .pills {
   display: flex;
   flex-wrap: wrap;
@@ -274,35 +369,88 @@ input[type=range]::-moz-range-thumb {
   justify-content: center;
   margin-bottom: 16px;
 }
+
 .pill {
   padding: 7px 14px;
   border-radius: 20px;
   font-size: 0.72rem;
   font-weight: 600;
 }
-.p-ns { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); }
-.p-good { background: rgba(42,171,157,0.25); color: #7fffee; border: 1px solid rgba(42,171,157,0.3); }
-.p-warn { background: rgba(201,168,76,0.2); color: #ffd97d; border: 1px solid rgba(201,168,76,0.3); }
-.disc { font-size: 0.63rem; color: rgba(255,255,255,0.3); line-height: 1.5; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
 
-.sem-diagram { max-width: 320px; margin: 0 auto 16px; }
+.p-ns {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.65);
+}
+
+.p-good {
+  background: rgba(42,171,157,0.25);
+  color: #7fffee;
+  border: 1px solid rgba(42,171,157,0.3);
+}
+
+.p-warn {
+  background: rgba(201,168,76,0.2);
+  color: #ffd97d;
+  border: 1px solid rgba(201,168,76,0.3);
+}
+
+.disc {
+  font-size: 0.63rem;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.5;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.sem-diagram {
+  max-width: 320px;
+  margin: 0 auto 16px;
+}
+
 .sem-node {
   border-radius: 12px;
   padding: 12px 16px;
   text-align: center;
 }
-.sem-node-title { font-size: 0.68rem; font-weight: 600; opacity: 0.85; }
-.sem-node-val { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-top: 2px; }
+
+.sem-node-title {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.sem-node-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  margin-top: 2px;
+}
+
 .n-navy { background: var(--navy); color: white; }
 .n-teal { background: var(--teal); color: white; }
 .n-green { background: #1a5c3a; color: #aaffd4; }
 .n-red { background: #3d1515; color: #ffaaaa; }
 
-.v-arrow { text-align: center; padding: 4px 0; }
-.v-line { width: 2px; height: 22px; margin: 0 auto; border-radius: 1px; }
+.v-arrow {
+  text-align: center;
+  padding: 4px 0;
+}
+
+.v-line {
+  width: 2px;
+  height: 22px;
+  margin: 0 auto;
+  border-radius: 1px;
+}
+
 .v-sig { background: var(--teal); }
 .v-ns { background: #d1d5db; }
-.v-label { font-size: 0.62rem; font-weight: 700; margin-top: 2px; }
+
+.v-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
 .vs-sig { color: var(--teal); }
 .vs-ns { color: #9ca3af; }
 
@@ -314,9 +462,22 @@ input[type=range]::-moz-range-thumb {
   padding-top: 16px;
   border-top: 1px solid var(--border);
 }
+
 .fit-item { text-align: center; }
-.fit-val { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--teal); }
-.fit-lbl { font-size: 0.58rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.fit-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--teal);
+}
+
+.fit-lbl {
+  font-size: 0.58rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
 .conclusion-box {
   background: linear-gradient(135deg, var(--navy), #1a3a60);
@@ -325,10 +486,22 @@ input[type=range]::-moz-range-thumb {
   color: white;
   margin-top: 14px;
 }
-.conclusion-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 10px; color: var(--teal-light); }
-.conclusion-box p { font-size: 0.8rem; line-height: 1.65; color: rgba(255,255,255,0.8); }
+
+.conclusion-box h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--teal-light);
+}
+
+.conclusion-box p {
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.8);
+}
 </style>
 </head>
+
 <body>
 
 <div class="hero">
@@ -349,22 +522,26 @@ input[type=range]::-moz-range-thumb {
 <div class="content">
 
 <div class="panel active" id="panel-findings">
+
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-num">985</div>
       <div class="stat-label">Single euploid FET cycles</div>
       <div class="stat-note">SET cohort</div>
     </div>
+
     <div class="stat-card gold">
       <div class="stat-num">~52%</div>
       <div class="stat-label">Live birth rate</div>
       <div class="stat-note">Across cohort</div>
     </div>
+
     <div class="stat-card navy">
       <div class="stat-num">1.70×</div>
       <div class="stat-label">Day 5 vs Day 6 odds</div>
       <div class="stat-note">OR 1.70 · p &lt; 0.001 ✓</div>
     </div>
+
     <div class="stat-card red">
       <div class="stat-num">OR=0.95</div>
       <div class="stat-label">AMH effect</div>
@@ -380,20 +557,26 @@ input[type=range]::-moz-range-thumb {
 
   <div class="card">
     <div class="chart-title">AMH Predicts Oocytes — Not Live Birth</div>
-    <div class="chart-sub">AMH increases ovarian response and blastocyst yield, while live birth rate remains comparable.</div>
+    <div class="chart-sub">AMH increases ovarian response and embryo yield, while live birth rate remains comparable.</div>
     <canvas id="responseChart" height="160"></canvas>
   </div>
 
   <div class="conclusion-box">
     <h3>Key Message</h3>
-    <p>AMH strongly reflects ovarian response and embryo yield but <strong style="color:#7fffee">does not independently predict live birth</strong> after single euploid frozen embryo transfer. Day-5 transfer was the only independent positive predictor of live birth.</p>
+    <p>
+      AMH strongly reflects ovarian response and embryo yield but
+      <strong style="color:#7fffee">does not independently predict live birth</strong>
+      after single euploid frozen embryo transfer. Day-5 transfer was the only independent positive predictor of live birth.
+    </p>
   </div>
+
 </div>
 
 <div class="panel" id="panel-calc">
+
   <div class="card">
     <div class="chart-title" style="margin-bottom:4px;">Live Birth Probability Estimator</div>
-    <div class="chart-sub">Based on multivariable logistic regression · n=985 single euploid FET cycles</div>
+    <div class="chart-sub">Shrinkage-weighted display based on adjusted logistic regression · n=985 single euploid FET cycles</div>
 
     <div class="field">
       <div class="field-label">
@@ -466,11 +649,16 @@ input[type=range]::-moz-range-thumb {
     <div class="result-pct" id="resultPct">—</div>
     <div class="result-lbl">Estimated Live Birth Probability</div>
     <div class="pills" id="resultPills"></div>
-    <div class="disc">Research visualization only · Based on multivariable logistic regression · Not for clinical decision-making</div>
+    <div class="disc">
+      Probability display uses a shrinkage-weighted version of the adjusted model:
+      statistically robust predictors retain full effect, while borderline or non-significant covariates are attenuated to avoid overinterpretation.
+    </div>
   </div>
+
 </div>
 
 <div class="panel" id="panel-sem">
+
   <div class="card">
     <div class="chart-title">Structural Equation Model</div>
     <div class="chart-sub">AMH drives oocyte yield and Day-5 embryo number — but does not independently reach live birth.</div>
@@ -494,10 +682,12 @@ input[type=range]::-moz-range-thumb {
           <div class="sem-node-title">Oocyte Yield</div>
           <div class="sem-node-val">↑</div>
         </div>
+
         <div class="sem-node n-teal" style="padding:10px 6px;">
           <div class="sem-node-title">Day-5 Embryos</div>
           <div class="sem-node-val">↑</div>
         </div>
+
         <div class="sem-node n-red" style="padding:10px 6px;">
           <div class="sem-node-title">Live Birth</div>
           <div class="sem-node-val">NS</div>
@@ -522,8 +712,12 @@ input[type=range]::-moz-range-thumb {
 
   <div class="conclusion-box">
     <h3>Interpretation</h3>
-    <p>AMH was strongly associated with oocyte yield and Day-5 embryo number, but the total indirect effect of AMH on live birth was not significant. Day-5 transfer was independently associated with higher live birth odds compared with Day 6.</p>
+    <p>
+      AMH was strongly associated with oocyte yield and Day-5 embryo number, but the total indirect effect of AMH on live birth was not significant.
+      Day-5 transfer was independently associated with higher live birth odds compared with Day 6.
+    </p>
   </div>
+
 </div>
 
 </div>
@@ -541,76 +735,77 @@ function updateSlider(el, valId, unit, dec) {
   el.style.setProperty('--val', pct+'%');
   document.getElementById(valId).textContent = parseFloat(el.value).toFixed(dec)+(unit?' '+unit:'');
 }
+
 document.querySelectorAll('input[type=range]').forEach(el=>{
   const pct=((el.value-el.min)/(el.max-el.min))*100;
   el.style.setProperty('--val',pct+'%');
 });
 
-let biopsyDay=5, quality=1;
+let biopsyDay = 5;
+let quality = 1;
 
 function setDay(d){
-  biopsyDay=d;
-  document.getElementById('d5btn').className='toggle-btn'+(d===5?' on':'');
-  document.getElementById('d6btn').className='toggle-btn'+(d===6?' on':'');
+  biopsyDay = d;
+  document.getElementById('d5btn').className = 'toggle-btn' + (d === 5 ? ' on' : '');
+  document.getElementById('d6btn').className = 'toggle-btn' + (d === 6 ? ' on' : '');
 }
+
 function setQuality(q){
-  quality=q;
-  document.getElementById('q1btn').className='toggle-btn'+(q===1?' on':'');
-  document.getElementById('q2btn').className='toggle-btn'+(q===2?' on':'');
-  document.getElementById('q3btn').className='toggle-btn'+(q===3?' on':'');
+  quality = q;
+  document.getElementById('q1btn').className = 'toggle-btn' + (q === 1 ? ' on' : '');
+  document.getElementById('q2btn').className = 'toggle-btn' + (q === 2 ? ' on' : '');
+  document.getElementById('q3btn').className = 'toggle-btn' + (q === 3 ? ' on' : '');
 }
 
 function calculate(){
-  const amh=parseFloat(document.getElementById('amh').value);
-  const age=parseFloat(document.getElementById('age').value);
-  const bmi=parseFloat(document.getElementById('bmi').value);
-  const endom=parseFloat(document.getElementById('endom').value);
-  const diagnosis=document.getElementById('diagnosis').value;
+  const amh = parseFloat(document.getElementById('amh').value);
+  const age = parseFloat(document.getElementById('age').value);
+  const bmi = parseFloat(document.getElementById('bmi').value);
+  const endom = parseFloat(document.getElementById('endom').value);
+  const diagnosis = document.getElementById('diagnosis').value;
 
-  let logit = -0.432;
+  let logit = Math.log(0.518 / (1 - 0.518));
 
-  logit += (-0.0471) * amh;
-  logit += (0.00481) * age;
-  logit += (0.00676) * bmi;
-  logit += (-0.00492) * endom;
+  logit += (-0.0471 * 0.50) * (amh - 2.42);
+  logit += (0.00481 * 0.20) * (age - 35);
+  logit += (0.00676 * 0.20) * (bmi - 24.9);
+  logit += (-0.00492 * 0.20) * (endom - 9.4);
 
-  if(biopsyDay===5) logit += 0.532;
+  if (biopsyDay === 5) logit += 0.532;
 
-  if(quality===2) logit += -0.118;
-  if(quality===3) logit += -0.151;
+  if (quality === 2) logit += (-0.118 * 0.20);
+  if (quality === 3) logit += (-0.151 * 0.20);
 
-  if(diagnosis==="aneuploidy") logit += -0.271;
-  if(diagnosis==="hi") logit += -0.0405;
-  if(diagnosis==="mix") logit += 0.139;
-  if(diagnosis==="tgk") logit += -0.0799;
-  if(diagnosis==="tib") logit += 0.146;
+  const prob = Math.round(100 / (1 + Math.exp(-logit)));
 
-  const prob=Math.round(100/(1+Math.exp(-logit)));
+  document.getElementById('resultPct').textContent = prob + '%';
 
-  document.getElementById('resultPct').textContent=prob+'%';
+  const amhGroup = amh <= 1.0 ? 'Low AMH' : amh <= 3.5 ? 'Normal AMH' : 'High AMH';
 
-  const grp=amh<=1.0?'Low AMH':amh<=3.5?'Normal AMH':'High AMH';
   const diagLabels = {
-    ref:'Advanced maternal age',
-    aneuploidy:'Aneuploidy',
-    hi:'Patient request / HI',
-    mix:'Mixed',
-    tgk:'Recurrent pregnancy loss',
-    tib:'Recurrent implantation failure'
+    ref: 'Advanced maternal age',
+    aneuploidy: 'Aneuploidy',
+    hi: 'Patient request / HI',
+    mix: 'Mixed indication',
+    tgk: 'Recurrent pregnancy loss',
+    tib: 'Recurrent implantation failure'
   };
 
-  document.getElementById('resultPills').innerHTML=`
-    <div class="pill p-ns">AMH: ${grp} · OR 0.95</div>
-    <div class="pill ${biopsyDay===5?'p-good':'p-warn'}">${biopsyDay===5?'Day 5 · OR 1.70':'Day 6 · reference'}</div>
-    <div class="pill p-ns">Grade ${quality}</div>
-    <div class="pill p-ns">Age: ${age} yrs</div>
-    <div class="pill p-ns">Endometrium: ${endom} mm</div>
-    <div class="pill p-ns">${diagLabels[diagnosis]}</div>
+  document.getElementById('resultPills').innerHTML = `
+    <div class="pill p-ns">AMH: ${amhGroup} · attenuated effect</div>
+    <div class="pill p-ns">Age: ${age} yrs · attenuated effect</div>
+    <div class="pill p-ns">BMI: ${bmi} · attenuated effect</div>
+    <div class="pill p-ns">Endometrium: ${endom} mm · attenuated effect</div>
+    <div class="pill ${biopsyDay === 5 ? 'p-good' : 'p-warn'}">
+      ${biopsyDay === 5 ? 'Day 5 · OR 1.70' : 'Day 6 · reference'}
+    </div>
+    <div class="pill p-ns">Grade ${quality} · attenuated effect</div>
+    <div class="pill p-ns">${diagLabels[diagnosis]} · adjusted, NS</div>
   `;
 
-  const box=document.getElementById('resultBox');
+  const box = document.getElementById('resultBox');
   box.classList.add('show');
-  setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  setTimeout(() => box.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
 }
 
 Chart.defaults.font.family="'DM Sans',sans-serif";
@@ -621,7 +816,7 @@ new Chart(document.getElementById('lbrChart'),{
     labels:['Low AMH\n≤1.0','Normal AMH\n1.0–3.5','High AMH\n>3.5'],
     datasets:[
       {label:'Live Birth %',data:[53.2,53.0,46.2],backgroundColor:'#1e7f74',borderRadius:8},
-      {label:'Clinical Pregnancy %',data:[62.2,61.6,57.0],backgroundColor:'rgba(30,127,116,0.2)',borderRadius:8},
+      {label:'Clinical Pregnancy %',data:[62.2,61.6,57.0],backgroundColor:'rgba(30,127,116,0.2)',borderRadius:8}
     ]
   },
   options:{
@@ -644,7 +839,7 @@ new Chart(document.getElementById('responseChart'),{
     datasets:[
       {label:'Oocytes Retrieved',data:[6.15,11.21,20.05],backgroundColor:'#0f2240',borderRadius:6,yAxisID:'y'},
       {label:'Biopsied Embryos',data:[2.15,3.11,4.75],backgroundColor:'#c9a84c',borderRadius:6,yAxisID:'y'},
-      {label:'Live Birth Rate %',data:[53.2,53.0,46.2],type:'line',borderColor:'#1e7f74',backgroundColor:'transparent',borderWidth:3,pointRadius:5,pointBackgroundColor:'#1e7f74',yAxisID:'y2',tension:0.3},
+      {label:'Live Birth Rate %',data:[53.2,53.0,46.2],type:'line',borderColor:'#1e7f74',backgroundColor:'transparent',borderWidth:3,pointRadius:5,pointBackgroundColor:'#1e7f74',yAxisID:'y2',tension:0.3}
     ]
   },
   options:{
