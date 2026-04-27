@@ -764,10 +764,28 @@ function calculate(){
   const endom = parseFloat(document.getElementById('endom').value);
   const diagnosis = document.getElementById('diagnosis').value;
 
+  // Baseline cohort live birth probability: ~51.8%
   let logit = Math.log(0.518 / (1 - 0.518));
 
-  if (biopsyDay === 5) logit += 0.532;
+  // AMH unchanged from your previous model/display logic
+  logit += (-0.0471 * 0.50) * (amh - 2.42);
 
+  // Clinically constrained weak effects for display only
+  // These prevent biologically odd increases when age/BMI rise,
+  // but keep their influence small because they were non-significant in the adjusted model.
+  logit += (-0.006) * (age - 35);
+  logit += (-0.004) * (bmi - 24.9);
+  logit += (-0.001) * (endom - 9.4);
+
+  // Robust independent predictor from the adjusted model: Day 5 vs Day 6, OR 1.70
+  if (biopsyDay === 5) logit += Math.log(1.70);
+
+  // Embryo quality: attenuated because non-significant
+  if (quality === 2) logit += Math.log(0.888) * 0.15;
+  if (quality === 3) logit += Math.log(0.860) * 0.15;
+
+  // Diagnosis: no probability effect because all diagnostic categories were non-significant.
+  // The selected diagnosis is displayed only as an adjusted covariate label.
 
   const prob = Math.round(100 / (1 + Math.exp(-logit)));
 
@@ -785,9 +803,9 @@ function calculate(){
   };
 
   document.getElementById('resultPills').innerHTML = `
-    <div class="pill p-ns">AMH: ${amhGroup} · attenuated effect</div>
-    <div class="pill p-ns">Age: ${age} yrs · attenuated effect</div>
-    <div class="pill p-ns">BMI: ${bmi} · attenuated effect</div>
+    <div class="pill p-ns">AMH: ${amhGroup} · unchanged display effect</div>
+    <div class="pill p-ns">Age: ${age} yrs · weak clinical constraint</div>
+    <div class="pill p-ns">BMI: ${bmi} · weak clinical constraint</div>
     <div class="pill p-ns">Endometrium: ${endom} mm · attenuated effect</div>
     <div class="pill ${biopsyDay === 5 ? 'p-good' : 'p-warn'}">
       ${biopsyDay === 5 ? 'Day 5 · OR 1.70' : 'Day 6 · reference'}
