@@ -2,46 +2,116 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IVF Outcome Model</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMH & Live Birth Model</title>
+
 <style>
-body {font-family: Arial; background:#f5f7fb; padding:20px;}
-.container {max-width:900px; margin:auto;}
-.stat-row {display:flex; gap:15px; margin-bottom:20px;}
-.stat-card {
-  flex:1; padding:15px; border-radius:10px;
-  color:white; text-align:center;
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #1a1a2e;
+  padding: 20px;
 }
-.navy {background:#0f2747;}
-.red {background:#c0392b;}
-.stat-num {font-size:22px; font-weight:bold;}
-.stat-label {font-size:14px;}
-.stat-note {font-size:12px; opacity:0.8;}
-
-.box {
-  background:white; padding:20px; border-radius:10px;
-  margin-bottom:20px;
+.container {
+  max-width: 850px;
+  margin: auto;
 }
-
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+h1 {
+  color: #0f2240;
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: #6b7a94;
+  margin-bottom: 20px;
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.stat {
+  border-radius: 14px;
+  padding: 18px;
+  color: white;
+  text-align: center;
+}
+.navy { background: #0f2240; }
+.teal { background: #1e7f74; }
+.red { background: #b23b3b; }
+.gold { background: #c9a84c; color: #0f2240; }
+.stat-num {
+  font-size: 30px;
+  font-weight: bold;
+}
+.stat-label {
+  font-size: 14px;
+  margin-top: 4px;
+}
+.stat-note {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
 input, select {
-  padding:8px; margin:5px; width:120px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccd3df;
+  font-size: 15px;
 }
-
 button {
-  padding:10px 20px; background:#0f2747; color:white;
-  border:none; border-radius:5px; cursor:pointer;
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background: #1e7f74;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
 }
-
 .result {
-  font-size:28px; font-weight:bold; margin-top:15px;
+  margin-top: 20px;
+  background: #0f2240;
+  color: white;
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
 }
-
+.result-pct {
+  font-size: 56px;
+  font-weight: bold;
+}
 .pill {
-  display:inline-block;
-  background:#eaeef6;
-  padding:5px 10px;
-  border-radius:20px;
-  margin:5px;
-  font-size:12px;
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 13px;
+}
+.note {
+  font-size: 13px;
+  color: #6b7a94;
+  line-height: 1.5;
+}
+.qr {
+  text-align: center;
+  margin-top: 25px;
 }
 </style>
 </head>
@@ -49,99 +119,171 @@ button {
 <body>
 <div class="container">
 
-<h2>IVF Live Birth Prediction Model</h2>
+<h1>AMH and Live Birth After Single Euploid FET</h1>
+<p class="subtitle">
+Interactive model based on multivariable logistic regression.
+</p>
 
-<!-- STATS -->
-<div class="stat-row">
-  <div class="stat-card navy">
-    <div class="stat-num">1.70×</div>
-    <div class="stat-label">Day 5 vs Day 6</div>
-    <div class="stat-note">p &lt; 0.001 ✓</div>
+<div class="stat-grid">
+  <div class="stat teal">
+    <div class="stat-num">985</div>
+    <div class="stat-label">Single euploid FET cycles</div>
+    <div class="stat-note">Final cohort</div>
   </div>
 
-  <div class="stat-card red">
-    <div class="stat-num">OR=0.95</div>
+  <div class="stat navy">
+    <div class="stat-num">1.70×</div>
+    <div class="stat-label">Day 5 vs Day 6</div>
+    <div class="stat-note">OR 1.70, p &lt; 0.001</div>
+  </div>
+
+  <div class="stat red">
+    <div class="stat-num">0.95</div>
     <div class="stat-label">AMH effect</div>
-    <div class="stat-note">p = 0.065 · NS</div>
+    <div class="stat-note">OR 0.954, p = 0.065</div>
+  </div>
+
+  <div class="stat gold">
+    <div class="stat-num">NS</div>
+    <div class="stat-label">Diagnosis effect</div>
+    <div class="stat-note">No diagnostic indication significant</div>
   </div>
 </div>
 
-<!-- CALCULATOR -->
-<div class="box">
-<h3>Prediction Calculator</h3>
+<div class="card">
+<h2>Live Birth Probability Calculator</h2>
 
-AMH <input id="amh" value="2.4"><br>
-Age <input id="age" value="35"><br>
-BMI <input id="bmi" value="25"><br>
+<label>AMH (ng/mL)</label>
+<input id="amh" type="number" step="0.1" value="2.4">
 
-Transfer Day:
+<label>Female age (years)</label>
+<input id="age" type="number" step="1" value="35">
+
+<label>BMI (kg/m²)</label>
+<input id="bmi" type="number" step="0.1" value="25">
+
+<label>Endometrial thickness (mm)</label>
+<input id="endom" type="number" step="0.1" value="9.4">
+
+<label>Transfer day</label>
 <select id="day">
   <option value="5">Day 5</option>
   <option value="6">Day 6</option>
 </select>
 
-Embryo Quality:
+<label>Embryo quality</label>
 <select id="quality">
   <option value="1">Grade 1</option>
   <option value="2">Grade 2</option>
   <option value="3">Grade 3</option>
 </select>
 
-<br><br>
-<button onclick="calc()">Calculate</button>
+<label>Diagnostic indication</label>
+<select id="diagnosis">
+  <option value="ref">Advanced maternal age</option>
+  <option value="aneuploidy">Aneuploidy</option>
+  <option value="hi">Patient request / HI</option>
+  <option value="mix">Mixed indication</option>
+  <option value="tgk">Recurrent pregnancy loss</option>
+  <option value="tib">Recurrent implantation failure</option>
+</select>
 
-<div class="result" id="res"></div>
-<div id="details"></div>
+<button onclick="calculate()">Calculate</button>
 
+<div class="result" id="resultBox" style="display:none;">
+  <div class="result-pct" id="resultPct">--%</div>
+  <div>Estimated live birth probability</div>
+  <div id="details" style="margin-top:14px;"></div>
 </div>
 
-<!-- CONCLUSION -->
-<div class="box">
-<h3>Key Message</h3>
-<p>
-Transfer day is the only independent predictor of live birth after euploid embryo transfer.
-Day 5 transfer significantly increases live birth odds compared to Day 6 (OR 1.70, p&lt;0.001).
-AMH is not an independent predictor.
+<p class="note">
+This calculator is a research visualization tool. It is based on the multivariable logistic regression model and should not be used for individual clinical decision-making.
 </p>
 </div>
 
-<!-- QR -->
-<div style="text-align:center;">
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=YOUR_LINK_HERE">
-<div style="font-size:12px;">Scan for full model</div>
+<div class="card">
+<h2>Model Interpretation</h2>
+<p>
+In the multivariable model, <strong>Day 5 transfer</strong> was independently associated with higher odds of live birth compared with Day 6 transfer
+(<strong>OR 1.70, 95% CI 1.28–2.27, p &lt; 0.001</strong>).
+</p>
+<p>
+AMH showed a borderline negative association with live birth
+(<strong>OR 0.954, 95% CI 0.91–1.00, p = 0.065</strong>), but did not reach statistical significance.
+Female age, BMI, endometrial thickness, embryo quality, and diagnostic indication were not independently associated with live birth.
+</p>
+</div>
+
+<div class="card">
+<h2>Regression Coefficients Used</h2>
+<p class="note">
+Intercept = -0.432<br>
+AMH = -0.0471<br>
+Female age = 0.00481<br>
+BMI = 0.00676<br>
+Endometrial thickness = -0.00492<br>
+Transfer day Day 5 = 0.532<br>
+Grade 2 = -0.118<br>
+Grade 3 = -0.151<br>
+Aneuploidy = -0.271<br>
+Patient request / HI = -0.0405<br>
+Mixed indication = 0.139<br>
+Recurrent pregnancy loss = -0.0799<br>
+Recurrent implantation failure = 0.146
+</p>
+</div>
+
+<div class="qr">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YOUR_LINK_HERE">
+  <div class="note">Scan for interactive model</div>
 </div>
 
 </div>
 
 <script>
-function calc(){
-  let amh=parseFloat(document.getElementById('amh').value);
-  let age=parseFloat(document.getElementById('age').value);
-  let bmi=parseFloat(document.getElementById('bmi').value);
-  let day=parseInt(document.getElementById('day').value);
-  let q=parseInt(document.getElementById('quality').value);
+function calculate() {
+  const amh = parseFloat(document.getElementById("amh").value);
+  const age = parseFloat(document.getElementById("age").value);
+  const bmi = parseFloat(document.getElementById("bmi").value);
+  const endom = parseFloat(document.getElementById("endom").value);
+  const day = document.getElementById("day").value;
+  const quality = document.getElementById("quality").value;
+  const diagnosis = document.getElementById("diagnosis").value;
 
-  let logit = Math.log(0.518/(1-0.518));
+  let logit = -0.432;
 
-  // MODEL
-  logit += Math.log(0.954)*(amh-2.42);
-  logit += Math.log(1.00)*(age-35);
-  logit += Math.log(1.01)*(bmi-24.9);
+  logit += (-0.0471) * amh;
+  logit += (0.00481) * age;
+  logit += (0.00676) * bmi;
+  logit += (-0.00492) * endom;
 
-  if(day===5) logit += Math.log(1.70);
+  if (day === "5") logit += 0.532;
 
-  if(q===2) logit += Math.log(0.888);
-  if(q===3) logit += Math.log(0.860);
+  if (quality === "2") logit += -0.118;
+  if (quality === "3") logit += -0.151;
 
-  let p = 1/(1+Math.exp(-logit));
-  let pct = Math.round(p*100);
+  if (diagnosis === "aneuploidy") logit += -0.271;
+  if (diagnosis === "hi") logit += -0.0405;
+  if (diagnosis === "mix") logit += 0.139;
+  if (diagnosis === "tgk") logit += -0.0799;
+  if (diagnosis === "tib") logit += 0.146;
 
-  document.getElementById('res').innerHTML = pct + "%";
+  const probability = 1 / (1 + Math.exp(-logit));
+  const pct = Math.round(probability * 100);
 
-  document.getElementById('details').innerHTML =
-    `<div class="pill">Day ${day}</div>
-     <div class="pill">Grade ${q}</div>
-     <div class="pill">AMH ${amh}</div>`;
+  document.getElementById("resultPct").innerText = pct + "%";
+
+  document.getElementById("details").innerHTML = `
+    <span class="pill">AMH ${amh}</span>
+    <span class="pill">Age ${age}</span>
+    <span class="pill">BMI ${bmi}</span>
+    <span class="pill">Endometrium ${endom} mm</span>
+    <span class="pill">Day ${day}</span>
+    <span class="pill">Grade ${quality}</span>
+    <span class="pill">${diagnosis}</span>
+  `;
+
+  document.getElementById("resultBox").style.display = "block";
 }
 </script>
 
