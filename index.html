@@ -773,8 +773,8 @@ function calculate(){
   // Clinically constrained weak effects for display only
   // These prevent biologically odd increases when age/BMI rise,
   // but keep their influence small because they were non-significant in the adjusted model.
-  logit += (-0.006) * (age - 35);
-  logit += (-0.004) * (bmi - 24.9);
+  logit += (-0.001) * (age - 35);
+  logit += (-0.001) * (bmi - 24.9);
   logit += (-0.001) * (endom - 9.4);
 
   // Robust independent predictor from the adjusted model: Day 5 vs Day 6, OR 1.70
