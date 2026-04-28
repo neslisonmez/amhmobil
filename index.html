@@ -23,16 +23,13 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  /* Android fix */
   -webkit-text-size-adjust: 100%;
   touch-action: manipulation;
 }
@@ -43,19 +40,15 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 .hero::after {
   content: '';
   position: absolute;
-  right: -80px;
-  bottom: -80px;
-  width: 220px;
-  height: 220px;
+  right: -80px; bottom: -80px;
+  width: 220px; height: 220px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(30,127,116,0.25), transparent 70%);
   pointer-events: none;
 }
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -71,7 +64,6 @@ body {
   border-radius: 20px;
   margin-bottom: 14px;
 }
-
 .hero h1 {
   font-family: 'DM Serif Display', serif;
   color: #fff;
@@ -79,22 +71,9 @@ body {
   line-height: 1.35;
   margin-bottom: 10px;
 }
-
-.hero h1 em {
-  color: var(--teal-light);
-  font-style: italic;
-}
-
-.hero-meta {
-  color: rgba(255,255,255,0.5);
-  font-size: 0.72rem;
-  line-height: 1.5;
-}
-
-.hero-meta strong {
-  color: rgba(255,255,255,0.8);
-  font-weight: 500;
-}
+.hero h1 em { color: var(--teal-light); font-style: italic; }
+.hero-meta { color: rgba(255,255,255,0.5); font-size: 0.72rem; line-height: 1.5; }
+.hero-meta strong { color: rgba(255,255,255,0.8); font-weight: 500; }
 
 .tabs {
   display: flex;
@@ -105,7 +84,6 @@ body {
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-
 .tab {
   flex: 1;
   padding: 14px 8px;
@@ -117,32 +95,17 @@ body {
   text-align: center;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
-  /* Android touch fix */
   user-select: none;
   -webkit-user-select: none;
 }
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); }
 
-.tab.active {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
-}
-
-.content {
-  padding: 20px 16px 48px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
+.content { padding: 20px 16px 48px; max-width: 600px; margin: 0 auto; }
 .panel { display: none; }
-
-.panel.active {
-  display: block;
-  animation: up 0.3s ease;
-}
-
+.panel.active { display: block; animation: up 0.3s ease; }
 @keyframes up {
   from { opacity:0; transform:translateY(10px); }
-  to { opacity:1; transform:translateY(0); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
 .card {
@@ -152,14 +115,7 @@ body {
   padding: 20px;
   margin-bottom: 14px;
 }
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .stat-card {
   background: var(--white);
   border-radius: var(--radius);
@@ -168,78 +124,28 @@ body {
   position: relative;
   overflow: hidden;
 }
-
 .stat-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
+  top: 0; left: 0;
+  width: 100%; height: 4px;
   background: var(--teal);
 }
-
 .stat-card.gold::before { background: var(--gold); }
 .stat-card.navy::before { background: var(--navy); }
-.stat-card.red::before { background: #c0392b; }
+.stat-card.red::before  { background: #c0392b; }
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--navy); line-height: 1; margin-bottom: 5px; }
+.stat-label { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+.stat-note { font-size: 0.63rem; color: var(--teal); font-weight: 600; margin-top: 5px; }
 
-.stat-num {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.9rem;
-  color: var(--navy);
-  line-height: 1;
-  margin-bottom: 5px;
-}
-
-.stat-label {
-  font-size: 0.7rem;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.stat-note {
-  font-size: 0.63rem;
-  color: var(--teal);
-  font-weight: 600;
-  margin-top: 5px;
-}
-
-.chart-title {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 3px;
-}
-
-.chart-sub {
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-bottom: 16px;
-  line-height: 1.4;
-}
+.chart-title { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.chart-sub   { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; line-height: 1.4; }
 
 .field { margin-bottom: 22px; }
+.field-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.field-label span   { font-size: 0.85rem; font-weight: 600; color: var(--navy); }
+.field-label strong { font-size: 1.05rem; color: var(--teal); font-weight: 700; }
 
-.field-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.field-label span {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--navy);
-}
-
-.field-label strong {
-  font-size: 1.05rem;
-  color: var(--teal);
-  font-weight: 700;
-}
-
-/* Android-compatible range slider */
 input[type=range] {
   width: 100%;
   -webkit-appearance: none;
@@ -249,55 +155,35 @@ input[type=range] {
   background: linear-gradient(to right, var(--teal) 0%, var(--teal) var(--val,30%), #e5e7eb var(--val,30%));
   outline: none;
   cursor: pointer;
-  /* Android fix: ensure touch events register */
   touch-action: pan-x;
 }
-
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 28px;
-  height: 28px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--navy);
   border: 3px solid white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
 }
-
 input[type=range]::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--navy);
   border: 3px solid white;
   cursor: pointer;
 }
-
-/* Android Chrome range fix */
 input[type=range]::-ms-thumb {
-  width: 28px;
-  height: 28px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--navy);
   border: 3px solid white;
 }
 
-.amh-markers {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 6px;
-}
+.amh-markers { display: flex; justify-content: space-between; margin-top: 6px; }
+.amh-markers span { font-size: 0.6rem; color: var(--muted); }
 
-.amh-markers span {
-  font-size: 0.6rem;
-  color: var(--muted);
-}
-
-.toggle-row {
-  display: flex;
-  gap: 10px;
-}
-
+.toggle-row { display: flex; gap: 10px; }
 .toggle-btn {
   flex: 1;
   padding: 16px 8px;
@@ -314,17 +200,14 @@ input[type=range]::-ms-thumb {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
-  /* Android fix: prevent text selection on tap */
   touch-action: manipulation;
 }
-
 .toggle-btn.on {
   border-color: var(--navy);
   background: var(--navy);
   color: white;
   font-weight: 600;
 }
-
 .toggle-btn.on-teal {
   border-color: var(--teal);
   background: var(--teal);
@@ -341,7 +224,6 @@ input[type=range]::-ms-thumb {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
   color: var(--text);
-  /* Android fix */
   -webkit-appearance: none;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -350,7 +232,6 @@ input[type=range]::-ms-thumb {
   padding-right: 36px;
 }
 
-/* ── CALCULATOR REDESIGN ── */
 .calc-section-label {
   font-size: 0.65rem;
   font-weight: 600;
@@ -360,42 +241,14 @@ input[type=range]::-ms-thumb {
   margin-bottom: 12px;
   margin-top: 4px;
 }
+.calc-section-label.key { color: var(--teal); }
 
-.calc-section-label.key {
-  color: var(--teal);
-}
-
-.effect-bar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 5px;
-}
-
-.effect-track {
-  flex: 1;
-  height: 4px;
-  background: #e5e7eb;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.effect-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
+.effect-bar-wrap { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+.effect-track { flex: 1; height: 4px; background: #e5e7eb; border-radius: 2px; overflow: hidden; }
+.effect-fill { height: 100%; border-radius: 2px; transition: width 0.3s ease; }
 .effect-fill.sig { background: var(--teal); }
 .effect-fill.ns  { background: #d1d5db; }
-
-.effect-tag {
-  font-size: 0.6rem;
-  font-weight: 700;
-  min-width: 62px;
-  text-align: right;
-}
-
+.effect-tag { font-size: 0.6rem; font-weight: 700; min-width: 62px; text-align: right; }
 .effect-tag.sig { color: var(--teal); }
 .effect-tag.ns  { color: var(--muted); }
 
@@ -404,21 +257,16 @@ input[type=range]::-ms-thumb {
   border-radius: var(--radius);
   padding: 28px 20px;
   margin-top: 14px;
-  text-align: center;
-  display: none;
   animation: up 0.4s ease;
 }
-
-.result-box.show { display: block; }
-
 .result-pct {
   font-family: 'DM Serif Display', serif;
   font-size: 5rem;
   color: white;
   line-height: 1;
   margin-bottom: 4px;
+  text-align: center;
 }
-
 .result-lbl {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.5);
@@ -426,14 +274,9 @@ input[type=range]::-ms-thumb {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 20px;
+  text-align: center;
 }
-
-/* driver bars inside result */
-.driver-section {
-  text-align: left;
-  margin-bottom: 16px;
-}
-
+.driver-section { text-align: left; margin-bottom: 16px; }
 .driver-row {
   display: flex;
   align-items: center;
@@ -441,42 +284,15 @@ input[type=range]::-ms-thumb {
   padding: 6px 0;
   border-top: 1px solid rgba(255,255,255,0.06);
 }
-
-.driver-name {
-  font-size: 0.68rem;
-  color: rgba(255,255,255,0.55);
-  min-width: 110px;
-}
-
+.driver-name { font-size: 0.68rem; color: rgba(255,255,255,0.55); min-width: 110px; }
 .driver-name.sig { color: #7fffee; font-weight: 600; }
-
-.driver-bar-track {
-  flex: 1;
-  height: 5px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.driver-bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.35s ease;
-}
-
+.driver-bar-track { flex: 1; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.driver-bar-fill { height: 100%; border-radius: 3px; transition: width 0.35s ease; }
 .driver-bar-fill.sig { background: var(--teal-light); }
 .driver-bar-fill.ns  { background: rgba(255,255,255,0.2); }
-
-.driver-or {
-  font-size: 0.62rem;
-  font-weight: 600;
-  min-width: 58px;
-  text-align: right;
-}
-
+.driver-or { font-size: 0.62rem; font-weight: 600; min-width: 58px; text-align: right; }
 .driver-or.sig { color: #7fffee; }
 .driver-or.ns  { color: rgba(255,255,255,0.35); }
-
 .key-msg {
   background: rgba(42,171,157,0.15);
   border: 1px solid rgba(42,171,157,0.25);
@@ -488,9 +304,7 @@ input[type=range]::-ms-thumb {
   margin-bottom: 14px;
   text-align: left;
 }
-
 .key-msg strong { color: #7fffee; }
-
 .disc {
   font-size: 0.63rem;
   color: rgba(255,255,255,0.3);
@@ -500,67 +314,25 @@ input[type=range]::-ms-thumb {
   text-align: left;
 }
 
-/* SEM tab — unchanged */
-.sem-diagram {
-  max-width: 320px;
-  margin: 0 auto 16px;
-}
-
-.sem-node {
-  border-radius: 12px;
-  padding: 12px 16px;
-  text-align: center;
-}
-
-.sem-node-title {
-  font-size: 0.68rem;
-  font-weight: 600;
-  opacity: 0.85;
-}
-
-.sem-node-val {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1rem;
-  margin-top: 2px;
-}
-
-.n-navy { background: var(--navy); color: white; }
-.n-teal { background: var(--teal); color: white; }
+.sem-diagram { max-width: 320px; margin: 0 auto 16px; }
+.sem-node { border-radius: 12px; padding: 12px 16px; text-align: center; }
+.sem-node-title { font-size: 0.68rem; font-weight: 600; opacity: 0.85; }
+.sem-node-val { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-top: 2px; }
+.n-navy  { background: var(--navy); color: white; }
+.n-teal  { background: var(--teal); color: white; }
 .n-green { background: #1a5c3a; color: #aaffd4; }
-.n-red { background: #3d1515; color: #ffaaaa; }
-
+.n-red   { background: #3d1515; color: #ffaaaa; }
 .v-arrow { text-align: center; padding: 4px 0; }
-.v-line { width: 2px; height: 22px; margin: 0 auto; border-radius: 1px; }
+.v-line  { width: 2px; height: 22px; margin: 0 auto; border-radius: 1px; }
 .v-sig { background: var(--teal); }
-.v-ns { background: #d1d5db; }
+.v-ns  { background: #d1d5db; }
 .v-label { font-size: 0.62rem; font-weight: 700; margin-top: 2px; }
 .vs-sig { color: var(--teal); }
-.vs-ns { color: #9ca3af; }
-
-.fit-row {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-}
-
+.vs-ns  { color: #9ca3af; }
+.fit-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
 .fit-item { text-align: center; }
-
-.fit-val {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.05rem;
-  color: var(--teal);
-}
-
-.fit-lbl {
-  font-size: 0.58rem;
-  color: var(--muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+.fit-val { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--teal); }
+.fit-lbl { font-size: 0.58rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
 .conclusion-box {
   background: linear-gradient(135deg, var(--navy), #1a3a60);
@@ -569,19 +341,8 @@ input[type=range]::-ms-thumb {
   color: white;
   margin-top: 14px;
 }
-
-.conclusion-box h3 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  color: var(--teal-light);
-}
-
-.conclusion-box p {
-  font-size: 0.8rem;
-  line-height: 1.65;
-  color: rgba(255,255,255,0.8);
-}
+.conclusion-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 10px; color: var(--teal-light); }
+.conclusion-box p  { font-size: 0.8rem; line-height: 1.65; color: rgba(255,255,255,0.8); }
 </style>
 </head>
 
@@ -604,9 +365,8 @@ input[type=range]::-ms-thumb {
 
 <div class="content">
 
-<!-- ═══════════════ RESULTS TAB ═══════════════ -->
+<!-- RESULTS -->
 <div class="panel active" id="panel-findings">
-
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-num">985</div>
@@ -650,17 +410,14 @@ input[type=range]::-ms-thumb {
       after single euploid frozen embryo transfer. Day-5 transfer was the only independent positive predictor of live birth.
     </p>
   </div>
-
 </div>
 
-<!-- ═══════════════ CALCULATOR TAB ═══════════════ -->
+<!-- CALCULATOR -->
 <div class="panel" id="panel-calc">
-
   <div class="card">
     <div class="chart-title" style="margin-bottom:4px;">Live Birth Probability Estimator</div>
     <div class="chart-sub">Based on multivariable logistic regression · n=985 single euploid FET cycles · Baseline = Day 6 reference group (observed LBR ~43%)</div>
 
-    <!-- KEY PREDICTOR -->
     <div class="calc-section-label key">★ Only significant independent predictor</div>
     <div class="field">
       <div class="field-label"><span>Embryo Transfer Day</span></div>
@@ -676,9 +433,7 @@ input[type=range]::-ms-thumb {
       </div>
     </div>
 
-    <div style="height:1px; background:var(--border); margin: 4px 0 18px;"></div>
-
-    <!-- NON-SIGNIFICANT COVARIATES -->
+    <div style="height:1px; background:var(--border); margin:4px 0 18px;"></div>
     <div class="calc-section-label">Adjusted covariates — included in model, not significant</div>
 
     <div class="field">
@@ -686,7 +441,8 @@ input[type=range]::-ms-thumb {
         <span>AMH Level</span>
         <strong id="amhVal">2.4 ng/mL</strong>
       </div>
-      <input type="range" id="amh" min="0.1" max="10" step="0.1" value="2.4" oninput="updateSlider(this,'amhVal','ng/mL',1); recalc()">
+      <input type="range" id="amh" min="0.1" max="10" step="0.1" value="2.4"
+             oninput="updateSlider(this,'amhVal','ng/mL',1); recalc()">
       <div class="amh-markers">
         <span>Low ≤1.0</span><span>Normal 1.0–3.5</span><span>High &gt;3.5</span>
       </div>
@@ -701,7 +457,8 @@ input[type=range]::-ms-thumb {
         <span>Female Age</span>
         <strong id="ageVal">35 yrs</strong>
       </div>
-      <input type="range" id="age" min="25" max="45" step="1" value="35" oninput="updateSlider(this,'ageVal','yrs',0); recalc()">
+      <input type="range" id="age" min="25" max="45" step="1" value="35"
+             oninput="updateSlider(this,'ageVal','yrs',0); recalc()">
       <div class="effect-bar-wrap">
         <div class="effect-track"><div class="effect-fill ns" style="width:0%;"></div></div>
         <span class="effect-tag ns">OR 1.00 · p=0.780</span>
@@ -713,7 +470,8 @@ input[type=range]::-ms-thumb {
         <span>BMI (kg/m²)</span>
         <strong id="bmiVal">24.9</strong>
       </div>
-      <input type="range" id="bmi" min="17" max="38" step="0.1" value="24.9" oninput="updateSlider(this,'bmiVal','',1); recalc()">
+      <input type="range" id="bmi" min="17" max="38" step="0.1" value="24.9"
+             oninput="updateSlider(this,'bmiVal','',1); recalc()">
       <div class="effect-bar-wrap">
         <div class="effect-track"><div class="effect-fill ns" style="width:1%;"></div></div>
         <span class="effect-tag ns">OR 1.01 · p=0.627</span>
@@ -725,7 +483,8 @@ input[type=range]::-ms-thumb {
         <span>Endometrial Thickness</span>
         <strong id="endomVal">9.4 mm</strong>
       </div>
-      <input type="range" id="endom" min="4" max="18" step="0.1" value="9.4" oninput="updateSlider(this,'endomVal','mm',1); recalc()">
+      <input type="range" id="endom" min="4" max="18" step="0.1" value="9.4"
+             oninput="updateSlider(this,'endomVal','mm',1); recalc()">
       <div class="effect-bar-wrap">
         <div class="effect-track"><div class="effect-fill ns" style="width:0%;"></div></div>
         <span class="effect-tag ns">OR 0.995 · p=0.238</span>
@@ -741,7 +500,7 @@ input[type=range]::-ms-thumb {
       </div>
       <div class="effect-bar-wrap" style="margin-top:10px;">
         <div class="effect-track"><div class="effect-fill ns" id="qualBar" style="width:0%;"></div></div>
-        <span class="effect-tag ns" id="qualTag">referans · p=0.382</span>
+        <span class="effect-tag ns" id="qualTag">reference · p=0.382</span>
       </div>
     </div>
 
@@ -758,8 +517,7 @@ input[type=range]::-ms-thumb {
     </div>
   </div>
 
-  <!-- RESULT BOX — auto-updates -->
-  <div class="result-box show" id="resultBox">
+  <div class="result-box" id="resultBox">
     <div class="result-pct" id="resultPct">56%</div>
     <div class="result-lbl">Estimated Live Birth Probability</div>
 
@@ -806,15 +564,13 @@ input[type=range]::-ms-thumb {
     </div>
 
     <div class="disc">
-      Baseline = Day 6 reference group (observed LBR ~43%). All OR values are applied as reported in the multivariable logistic regression (Table 3). Non-significant covariates are included at their actual estimated effect. For research/educational use only.
+      Baseline = Day 6 reference group (observed LBR ~43%). All OR values applied as reported in multivariable logistic regression (Table 3). Non-significant covariates included at actual estimated effect. For research/educational use only.
     </div>
   </div>
-
 </div>
 
-<!-- ═══════════════ SEM TAB ═══════════════ -->
+<!-- SEM -->
 <div class="panel" id="panel-sem">
-
   <div class="card">
     <div class="chart-title">Structural Equation Model</div>
     <div class="chart-sub">AMH drives oocyte yield and Day-5 embryo number — but does not independently reach live birth.</div>
@@ -826,13 +582,11 @@ input[type=range]::-ms-thumb {
           <div class="sem-node-val">Baseline marker</div>
         </div>
       </div>
-
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
         <div class="v-arrow"><div class="v-line v-sig"></div><div class="v-label vs-sig">β=1.70 ✓</div></div>
         <div class="v-arrow"><div class="v-line v-sig"></div><div class="v-label vs-sig">β=0.63 ✓</div></div>
         <div class="v-arrow"><div class="v-line v-ns"></div><div class="v-label vs-ns">β=-0.01 ns</div></div>
       </div>
-
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:4px;">
         <div class="sem-node n-teal" style="padding:10px 6px;">
           <div class="sem-node-title">Oocyte Yield</div>
@@ -847,7 +601,6 @@ input[type=range]::-ms-thumb {
           <div class="sem-node-val">NS</div>
         </div>
       </div>
-
       <div style="text-align:center;">
         <div class="sem-node n-green" style="display:inline-block; min-width:210px;">
           <div class="sem-node-title">Independent predictor</div>
@@ -871,13 +624,11 @@ input[type=range]::-ms-thumb {
       Day-5 transfer was independently associated with higher live birth odds compared with Day 6.
     </p>
   </div>
-
 </div>
 
 </div><!-- /content -->
 
 <script>
-/* ── TAB SWITCHING ── */
 function switchTab(id) {
   document.querySelectorAll('.tab').forEach((t,i) =>
     t.classList.toggle('active', ['findings','calc','sem'][i] === id));
@@ -886,7 +637,6 @@ function switchTab(id) {
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-/* ── SLIDER UPDATE ── */
 function updateSlider(el, valId, unit, dec) {
   const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
   el.style.setProperty('--val', pct + '%');
@@ -899,29 +649,17 @@ document.querySelectorAll('input[type=range]').forEach(el => {
   el.style.setProperty('--val', pct + '%');
 });
 
-/* ── STATE ── */
 let transferDay = 5;
 let quality = 1;
 
-const BASELINE_LOGIT = Math.log(0.427 / 0.573); // Day 6 ref group observed LBR ~43%
-
+const BASELINE_LOGIT = Math.log(0.427 / 0.573);
 const OR_MAP = {
-  day5: 1.70,
-  amh: 0.954,   // per ng/mL unit increase
-  age: 1.00,    // per year
-  bmi: 1.01,    // per unit
-  endom: 0.995, // per mm
-  grade2: 0.888,
-  grade3: 0.860,
-  aneuploidy: 0.763,
-  hi: 0.960,
-  mix: 1.15,
-  tgk: 0.923,
-  tib: 1.16
+  day5: 1.70, amh: 0.954, age: 1.00, bmi: 1.01, endom: 0.995,
+  grade2: 0.888, grade3: 0.860,
+  aneuploidy: 0.763, hi: 0.960, mix: 1.15, tgk: 0.923, tib: 1.16
 };
-
 const REF = { amh: 2.42, age: 35, bmi: 24.9, endom: 9.4 };
-const MAX_DELTA = Math.log(OR_MAP.day5); // used to scale bars
+const MAX_DELTA = Math.log(OR_MAP.day5);
 
 function setDay(d) {
   transferDay = d;
@@ -949,7 +687,6 @@ function recalc() {
   const endom = parseFloat(document.getElementById('endom').value);
   const diag  = document.getElementById('diagnosis').value;
 
-  // Deltas from reference values using actual OR coefficients
   const dDay5  = transferDay === 5 ? Math.log(OR_MAP.day5) : 0;
   const dAmh   = Math.log(OR_MAP.amh)   * (amh - REF.amh);
   const dAge   = Math.log(OR_MAP.age)   * (age - REF.age);
@@ -966,15 +703,12 @@ function recalc() {
 
   const logit = BASELINE_LOGIT + dDay5 + dAmh + dAge + dBmi + dEndom + dQual + dDiag;
   const prob  = Math.round(100 / (1 + Math.exp(-logit)));
-
   document.getElementById('resultPct').textContent = prob + '%';
 
-  // AMH bar — scales with deviation from reference
   const amhPct = barPct(dAmh);
   document.getElementById('amhBar').style.width = amhPct + '%';
   document.getElementById('amhDriverBar').style.width = amhPct + '%';
 
-  // Quality bar
   const qualPct = barPct(dQual);
   document.getElementById('qualBar').style.width = qualPct + '%';
   document.getElementById('qualDriverBar').style.width = qualPct + '%';
@@ -989,11 +723,9 @@ function recalc() {
     document.getElementById('qualDriverOR').textContent = 'p = 0.661';
   }
 
-  // Diag bar
   const diagPct = barPct(dDiag);
   document.getElementById('diagDriverBar').style.width = diagPct + '%';
 
-  // Day bar & message
   if (transferDay === 5) {
     document.getElementById('dayBar').style.width = '100%';
     document.getElementById('dayTag').textContent = 'OR 1.70 · p<0.001';
@@ -1013,10 +745,8 @@ function recalc() {
   }
 }
 
-// Init on load
 recalc();
 
-/* ── CHARTS ── */
 Chart.defaults.font.family = "'DM Sans',sans-serif";
 
 new Chart(document.getElementById('lbrChart'), {
@@ -1024,7 +754,7 @@ new Chart(document.getElementById('lbrChart'), {
   data: {
     labels: ['Low AMH\n≤1.0', 'Normal AMH\n1.0–3.5', 'High AMH\n>3.5'],
     datasets: [
-      { label: 'Live Birth %',        data: [53.2, 53.0, 46.2], backgroundColor: '#1e7f74', borderRadius: 8 },
+      { label: 'Live Birth %',         data: [53.2, 53.0, 46.2], backgroundColor: '#1e7f74', borderRadius: 8 },
       { label: 'Clinical Pregnancy %', data: [62.2, 61.6, 57.0], backgroundColor: 'rgba(30,127,116,0.2)', borderRadius: 8 }
     ]
   },
