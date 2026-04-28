@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>AMH & Live Birth — ESHRE 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -32,6 +32,9 @@ body {
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  /* Android fix */
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
 }
 
 .hero {
@@ -114,6 +117,9 @@ body {
   text-align: center;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
+  /* Android touch fix */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .tab.active {
@@ -233,6 +239,7 @@ body {
   font-weight: 700;
 }
 
+/* Android-compatible range slider */
 input[type=range] {
   width: 100%;
   -webkit-appearance: none;
@@ -242,6 +249,8 @@ input[type=range] {
   background: linear-gradient(to right, var(--teal) 0%, var(--teal) var(--val,30%), #e5e7eb var(--val,30%));
   outline: none;
   cursor: pointer;
+  /* Android fix: ensure touch events register */
+  touch-action: pan-x;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -252,9 +261,20 @@ input[type=range]::-webkit-slider-thumb {
   background: var(--navy);
   border: 3px solid white;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
 }
 
 input[type=range]::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 3px solid white;
+  cursor: pointer;
+}
+
+/* Android Chrome range fix */
+input[type=range]::-ms-thumb {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -292,11 +312,22 @@ input[type=range]::-moz-range-thumb {
   transition: all 0.15s;
   text-align: center;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Android fix: prevent text selection on tap */
+  touch-action: manipulation;
 }
 
 .toggle-btn.on {
   border-color: var(--navy);
   background: var(--navy);
+  color: white;
+  font-weight: 600;
+}
+
+.toggle-btn.on-teal {
+  border-color: var(--teal);
+  background: var(--teal);
   color: white;
   font-weight: 600;
 }
@@ -310,28 +341,63 @@ input[type=range]::-moz-range-thumb {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.85rem;
   color: var(--text);
+  /* Android fix */
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a94' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
 }
 
-.calc-btn {
-  width: 100%;
-  padding: 18px;
-  background: var(--teal);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
+/* ── CALCULATOR REDESIGN ── */
+.calc-section-label {
+  font-size: 0.65rem;
   font-weight: 600;
-  cursor: pointer;
-  margin-top: 6px;
-  letter-spacing: 0.02em;
-  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  margin-top: 4px;
 }
 
-.calc-btn:active {
-  background: #18685e;
-  transform: scale(0.99);
+.calc-section-label.key {
+  color: var(--teal);
 }
+
+.effect-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.effect-track {
+  flex: 1;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.effect-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.effect-fill.sig { background: var(--teal); }
+.effect-fill.ns  { background: #d1d5db; }
+
+.effect-tag {
+  font-size: 0.6rem;
+  font-weight: 700;
+  min-width: 62px;
+  text-align: right;
+}
+
+.effect-tag.sig { color: var(--teal); }
+.effect-tag.ns  { color: var(--muted); }
 
 .result-box {
   background: var(--navy);
@@ -362,37 +428,68 @@ input[type=range]::-moz-range-thumb {
   margin-bottom: 20px;
 }
 
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
+/* driver bars inside result */
+.driver-section {
+  text-align: left;
   margin-bottom: 16px;
 }
 
-.pill {
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 600;
+.driver-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
-.p-ns {
+.driver-name {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.55);
+  min-width: 110px;
+}
+
+.driver-name.sig { color: #7fffee; font-weight: 600; }
+
+.driver-bar-track {
+  flex: 1;
+  height: 5px;
   background: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.65);
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.p-good {
-  background: rgba(42,171,157,0.25);
-  color: #7fffee;
-  border: 1px solid rgba(42,171,157,0.3);
+.driver-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.35s ease;
 }
 
-.p-warn {
-  background: rgba(201,168,76,0.2);
-  color: #ffd97d;
-  border: 1px solid rgba(201,168,76,0.3);
+.driver-bar-fill.sig { background: var(--teal-light); }
+.driver-bar-fill.ns  { background: rgba(255,255,255,0.2); }
+
+.driver-or {
+  font-size: 0.62rem;
+  font-weight: 600;
+  min-width: 58px;
+  text-align: right;
 }
+
+.driver-or.sig { color: #7fffee; }
+.driver-or.ns  { color: rgba(255,255,255,0.35); }
+
+.key-msg {
+  background: rgba(42,171,157,0.15);
+  border: 1px solid rgba(42,171,157,0.25);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.key-msg strong { color: #7fffee; }
 
 .disc {
   font-size: 0.63rem;
@@ -400,8 +497,10 @@ input[type=range]::-moz-range-thumb {
   line-height: 1.5;
   padding-top: 12px;
   border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: left;
 }
 
+/* SEM tab — unchanged */
 .sem-diagram {
   max-width: 320px;
   margin: 0 auto 16px;
@@ -430,27 +529,11 @@ input[type=range]::-moz-range-thumb {
 .n-green { background: #1a5c3a; color: #aaffd4; }
 .n-red { background: #3d1515; color: #ffaaaa; }
 
-.v-arrow {
-  text-align: center;
-  padding: 4px 0;
-}
-
-.v-line {
-  width: 2px;
-  height: 22px;
-  margin: 0 auto;
-  border-radius: 1px;
-}
-
+.v-arrow { text-align: center; padding: 4px 0; }
+.v-line { width: 2px; height: 22px; margin: 0 auto; border-radius: 1px; }
 .v-sig { background: var(--teal); }
 .v-ns { background: #d1d5db; }
-
-.v-label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  margin-top: 2px;
-}
-
+.v-label { font-size: 0.62rem; font-weight: 700; margin-top: 2px; }
 .vs-sig { color: var(--teal); }
 .vs-ns { color: #9ca3af; }
 
@@ -521,6 +604,7 @@ input[type=range]::-moz-range-thumb {
 
 <div class="content">
 
+<!-- ═══════════════ RESULTS TAB ═══════════════ -->
 <div class="panel active" id="panel-findings">
 
   <div class="stats-grid">
@@ -529,19 +613,16 @@ input[type=range]::-moz-range-thumb {
       <div class="stat-label">Single euploid FET cycles</div>
       <div class="stat-note">SET cohort</div>
     </div>
-
     <div class="stat-card gold">
       <div class="stat-num">~52%</div>
       <div class="stat-label">Live birth rate</div>
       <div class="stat-note">Across cohort</div>
     </div>
-
     <div class="stat-card navy">
       <div class="stat-num">1.70×</div>
       <div class="stat-label">Day 5 vs Day 6 odds</div>
       <div class="stat-note">OR 1.70 · p &lt; 0.001 ✓</div>
     </div>
-
     <div class="stat-card red">
       <div class="stat-num">OR=0.95</div>
       <div class="stat-label">AMH effect</div>
@@ -572,20 +653,46 @@ input[type=range]::-moz-range-thumb {
 
 </div>
 
+<!-- ═══════════════ CALCULATOR TAB ═══════════════ -->
 <div class="panel" id="panel-calc">
 
   <div class="card">
     <div class="chart-title" style="margin-bottom:4px;">Live Birth Probability Estimator</div>
-    <div class="chart-sub">Shrinkage-weighted display based on adjusted logistic regression · n=985 single euploid FET cycles</div>
+    <div class="chart-sub">Based on multivariable logistic regression · n=985 single euploid FET cycles · Baseline = Day 6 reference group (observed LBR ~43%)</div>
+
+    <!-- KEY PREDICTOR -->
+    <div class="calc-section-label key">★ Only significant independent predictor</div>
+    <div class="field">
+      <div class="field-label"><span>Embryo Transfer Day</span></div>
+      <div class="toggle-row">
+        <div class="toggle-btn on-teal" id="d5btn" onclick="setDay(5)">Day 5</div>
+        <div class="toggle-btn" id="d6btn" onclick="setDay(6)">Day 6</div>
+      </div>
+      <div class="effect-bar-wrap" style="margin-top:10px;">
+        <div class="effect-track" style="height:6px;">
+          <div class="effect-fill sig" id="dayBar" style="width:100%;"></div>
+        </div>
+        <span class="effect-tag sig" id="dayTag">OR 1.70 · p&lt;0.001</span>
+      </div>
+    </div>
+
+    <div style="height:1px; background:var(--border); margin: 4px 0 18px;"></div>
+
+    <!-- NON-SIGNIFICANT COVARIATES -->
+    <div class="calc-section-label">Adjusted covariates — included in model, not significant</div>
 
     <div class="field">
       <div class="field-label">
         <span>AMH Level</span>
         <strong id="amhVal">2.4 ng/mL</strong>
       </div>
-      <input type="range" id="amh" min="0.1" max="10" step="0.1" value="2.4" oninput="updateSlider(this,'amhVal','ng/mL',1)">
+      <input type="range" id="amh" min="0.1" max="10" step="0.1" value="2.4" oninput="updateSlider(this,'amhVal','ng/mL',1); recalc()">
       <div class="amh-markers">
         <span>Low ≤1.0</span><span>Normal 1.0–3.5</span><span>High &gt;3.5</span>
+      </div>
+      <div class="effect-bar-wrap">
+        <div class="effect-track"><div class="effect-fill ns" id="amhBar" style="width:2%;"></div></div>
+        <span class="effect-tag ns">OR 0.954 · p=0.065</span>
       </div>
     </div>
 
@@ -594,7 +701,11 @@ input[type=range]::-moz-range-thumb {
         <span>Female Age</span>
         <strong id="ageVal">35 yrs</strong>
       </div>
-      <input type="range" id="age" min="25" max="45" step="1" value="35" oninput="updateSlider(this,'ageVal','yrs',0)">
+      <input type="range" id="age" min="25" max="45" step="1" value="35" oninput="updateSlider(this,'ageVal','yrs',0); recalc()">
+      <div class="effect-bar-wrap">
+        <div class="effect-track"><div class="effect-fill ns" style="width:0%;"></div></div>
+        <span class="effect-tag ns">OR 1.00 · p=0.780</span>
+      </div>
     </div>
 
     <div class="field">
@@ -602,7 +713,11 @@ input[type=range]::-moz-range-thumb {
         <span>BMI (kg/m²)</span>
         <strong id="bmiVal">24.9</strong>
       </div>
-      <input type="range" id="bmi" min="17" max="38" step="0.1" value="24.9" oninput="updateSlider(this,'bmiVal','',1)">
+      <input type="range" id="bmi" min="17" max="38" step="0.1" value="24.9" oninput="updateSlider(this,'bmiVal','',1); recalc()">
+      <div class="effect-bar-wrap">
+        <div class="effect-track"><div class="effect-fill ns" style="width:1%;"></div></div>
+        <span class="effect-tag ns">OR 1.01 · p=0.627</span>
+      </div>
     </div>
 
     <div class="field">
@@ -610,14 +725,10 @@ input[type=range]::-moz-range-thumb {
         <span>Endometrial Thickness</span>
         <strong id="endomVal">9.4 mm</strong>
       </div>
-      <input type="range" id="endom" min="4" max="18" step="0.1" value="9.4" oninput="updateSlider(this,'endomVal','mm',1)">
-    </div>
-
-    <div class="field">
-      <div class="field-label"><span>Embryo Transfer Day</span></div>
-      <div class="toggle-row">
-        <div class="toggle-btn on" id="d5btn" onclick="setDay(5)">Day 5</div>
-        <div class="toggle-btn" id="d6btn" onclick="setDay(6)">Day 6</div>
+      <input type="range" id="endom" min="4" max="18" step="0.1" value="9.4" oninput="updateSlider(this,'endomVal','mm',1); recalc()">
+      <div class="effect-bar-wrap">
+        <div class="effect-track"><div class="effect-fill ns" style="width:0%;"></div></div>
+        <span class="effect-tag ns">OR 0.995 · p=0.238</span>
       </div>
     </div>
 
@@ -628,35 +739,80 @@ input[type=range]::-moz-range-thumb {
         <div class="toggle-btn" id="q2btn" onclick="setQuality(2)">Grade 2</div>
         <div class="toggle-btn" id="q3btn" onclick="setQuality(3)">Grade 3</div>
       </div>
+      <div class="effect-bar-wrap" style="margin-top:10px;">
+        <div class="effect-track"><div class="effect-fill ns" id="qualBar" style="width:0%;"></div></div>
+        <span class="effect-tag ns" id="qualTag">referans · p=0.382</span>
+      </div>
     </div>
 
     <div class="field">
       <div class="field-label"><span>Diagnostic Indication</span></div>
-      <select id="diagnosis" class="select-field">
-        <option value="ref">Advanced maternal age</option>
-        <option value="aneuploidy">Aneuploidy</option>
-        <option value="hi">Patient request / HI</option>
-        <option value="mix">Mixed indication</option>
-        <option value="tgk">Recurrent pregnancy loss</option>
-        <option value="tib">Recurrent implantation failure</option>
+      <select id="diagnosis" class="select-field" onchange="recalc()">
+        <option value="ref">Advanced maternal age (reference)</option>
+        <option value="aneuploidy">Aneuploidy — OR 0.763 · NS</option>
+        <option value="hi">Patient request / HI — OR 0.960 · NS</option>
+        <option value="mix">Mixed indication — OR 1.15 · NS</option>
+        <option value="tgk">Recurrent pregnancy loss — OR 0.923 · NS</option>
+        <option value="tib">Recurrent implantation failure — OR 1.16 · NS</option>
       </select>
     </div>
-
-    <button class="calc-btn" onclick="calculate()">Calculate Live Birth Probability →</button>
   </div>
 
-  <div class="result-box" id="resultBox">
-    <div class="result-pct" id="resultPct">—</div>
+  <!-- RESULT BOX — auto-updates -->
+  <div class="result-box show" id="resultBox">
+    <div class="result-pct" id="resultPct">56%</div>
     <div class="result-lbl">Estimated Live Birth Probability</div>
-    <div class="pills" id="resultPills"></div>
+
+    <div class="driver-section">
+      <div class="driver-row" style="border-top:none;">
+        <span class="driver-name sig" id="dayDriverName">Transfer day (Day 5)</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill sig" id="dayDriverBar" style="width:100%;"></div></div>
+        <span class="driver-or sig" id="dayDriverOR">OR 1.70 ✓</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">AMH</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" id="amhDriverBar" style="width:2%;"></div></div>
+        <span class="driver-or ns">p = 0.065</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">Age</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" style="width:0%;"></div></div>
+        <span class="driver-or ns">p = 0.780</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">BMI</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" style="width:1%;"></div></div>
+        <span class="driver-or ns">p = 0.627</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">Endometrium</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" style="width:0%;"></div></div>
+        <span class="driver-or ns">p = 0.238</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">Embryo quality</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" id="qualDriverBar" style="width:2%;"></div></div>
+        <span class="driver-or ns" id="qualDriverOR">p = 0.382</span>
+      </div>
+      <div class="driver-row">
+        <span class="driver-name">Indication</span>
+        <div class="driver-bar-track"><div class="driver-bar-fill ns" id="diagDriverBar" style="width:2%;"></div></div>
+        <span class="driver-or ns" id="diagDriverOR">p &gt; 0.45</span>
+      </div>
+    </div>
+
+    <div class="key-msg" id="keyMsg">
+      Transfer günü bu modelde tek anlamlı bağımsız prediktördür. Day 5 transferi Day 6'ya göre <strong>OR 1.70</strong> (%95 CI: 1.28–2.27, p &lt; 0.001) avantaj sağlar.
+    </div>
+
     <div class="disc">
-      Probability display uses a shrinkage-weighted version of the adjusted model:
-      statistically robust predictors retain full effect, while borderline or non-significant covariates are attenuated to avoid overinterpretation.
+      Baseline = Day 6 reference group (observed LBR ~43%). All OR values are applied as reported in the multivariable logistic regression (Table 3). Non-significant covariates are included at their actual estimated effect. For research/educational use only.
     </div>
   </div>
 
 </div>
 
+<!-- ═══════════════ SEM TAB ═══════════════ -->
 <div class="panel" id="panel-sem">
 
   <div class="card">
@@ -682,12 +838,10 @@ input[type=range]::-moz-range-thumb {
           <div class="sem-node-title">Oocyte Yield</div>
           <div class="sem-node-val">↑</div>
         </div>
-
         <div class="sem-node n-teal" style="padding:10px 6px;">
           <div class="sem-node-title">Day-5 Embryos</div>
           <div class="sem-node-val">↑</div>
         </div>
-
         <div class="sem-node n-red" style="padding:10px 6px;">
           <div class="sem-node-title">Live Birth</div>
           <div class="sem-node-val">NS</div>
@@ -720,146 +874,200 @@ input[type=range]::-moz-range-thumb {
 
 </div>
 
-</div>
+</div><!-- /content -->
 
 <script>
+/* ── TAB SWITCHING ── */
 function switchTab(id) {
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['findings','calc','sem'][i]===id));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.tab').forEach((t,i) =>
+    t.classList.toggle('active', ['findings','calc','sem'][i] === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+/* ── SLIDER UPDATE ── */
 function updateSlider(el, valId, unit, dec) {
-  const pct = ((el.value-el.min)/(el.max-el.min))*100;
-  el.style.setProperty('--val', pct+'%');
-  document.getElementById(valId).textContent = parseFloat(el.value).toFixed(dec)+(unit?' '+unit:'');
+  const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+  el.style.setProperty('--val', pct + '%');
+  document.getElementById(valId).textContent =
+    parseFloat(el.value).toFixed(dec) + (unit ? ' ' + unit : '');
 }
 
-document.querySelectorAll('input[type=range]').forEach(el=>{
-  const pct=((el.value-el.min)/(el.max-el.min))*100;
-  el.style.setProperty('--val',pct+'%');
+document.querySelectorAll('input[type=range]').forEach(el => {
+  const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+  el.style.setProperty('--val', pct + '%');
 });
 
-let biopsyDay = 5;
+/* ── STATE ── */
+let transferDay = 5;
 let quality = 1;
 
-function setDay(d){
-  biopsyDay = d;
-  document.getElementById('d5btn').className = 'toggle-btn' + (d === 5 ? ' on' : '');
-  document.getElementById('d6btn').className = 'toggle-btn' + (d === 6 ? ' on' : '');
+const BASELINE_LOGIT = Math.log(0.427 / 0.573); // Day 6 ref group observed LBR ~43%
+
+const OR_MAP = {
+  day5: 1.70,
+  amh: 0.954,   // per ng/mL unit increase
+  age: 1.00,    // per year
+  bmi: 1.01,    // per unit
+  endom: 0.995, // per mm
+  grade2: 0.888,
+  grade3: 0.860,
+  aneuploidy: 0.763,
+  hi: 0.960,
+  mix: 1.15,
+  tgk: 0.923,
+  tib: 1.16
+};
+
+const REF = { amh: 2.42, age: 35, bmi: 24.9, endom: 9.4 };
+const MAX_DELTA = Math.log(OR_MAP.day5); // used to scale bars
+
+function setDay(d) {
+  transferDay = d;
+  document.getElementById('d5btn').className = 'toggle-btn' + (d === 5 ? ' on-teal' : '');
+  document.getElementById('d6btn').className = 'toggle-btn' + (d === 6 ? ' on-teal' : '');
+  recalc();
 }
 
-function setQuality(q){
+function setQuality(q) {
   quality = q;
   document.getElementById('q1btn').className = 'toggle-btn' + (q === 1 ? ' on' : '');
   document.getElementById('q2btn').className = 'toggle-btn' + (q === 2 ? ' on' : '');
   document.getElementById('q3btn').className = 'toggle-btn' + (q === 3 ? ' on' : '');
+  recalc();
 }
 
-function calculate(){
-  const amh = parseFloat(document.getElementById('amh').value);
-  const age = parseFloat(document.getElementById('age').value);
-  const bmi = parseFloat(document.getElementById('bmi').value);
+function barPct(delta) {
+  return Math.min(100, Math.round(Math.abs(delta) / MAX_DELTA * 100));
+}
+
+function recalc() {
+  const amh   = parseFloat(document.getElementById('amh').value);
+  const age   = parseFloat(document.getElementById('age').value);
+  const bmi   = parseFloat(document.getElementById('bmi').value);
   const endom = parseFloat(document.getElementById('endom').value);
-  const diagnosis = document.getElementById('diagnosis').value;
+  const diag  = document.getElementById('diagnosis').value;
 
-  // Baseline cohort live birth probability: ~51.8%
-  let logit = Math.log(0.518 / (1 - 0.518));
+  // Deltas from reference values using actual OR coefficients
+  const dDay5  = transferDay === 5 ? Math.log(OR_MAP.day5) : 0;
+  const dAmh   = Math.log(OR_MAP.amh)   * (amh - REF.amh);
+  const dAge   = Math.log(OR_MAP.age)   * (age - REF.age);
+  const dBmi   = Math.log(OR_MAP.bmi)   * (bmi - REF.bmi);
+  const dEndom = Math.log(OR_MAP.endom) * (endom - REF.endom);
 
-  // AMH unchanged from your previous model/display logic
-  logit += (-0.0471 * 0.50) * (amh - 2.42);
+  let dQual = 0;
+  if (quality === 2) dQual = Math.log(OR_MAP.grade2);
+  if (quality === 3) dQual = Math.log(OR_MAP.grade3);
 
-  // Clinically constrained weak effects for display only
-  // These prevent biologically odd increases when age/BMI rise,
-  // but keep their influence small because they were non-significant in the adjusted model.
-  logit += (-0.001) * (age - 35);
-  logit += (-0.001) * (bmi - 24.9);
-  logit += (-0.001) * (endom - 9.4);
+  let dDiag = 0;
+  const diagOR = { aneuploidy:0.763, hi:0.960, mix:1.15, tgk:0.923, tib:1.16 };
+  if (diag !== 'ref') dDiag = Math.log(diagOR[diag] || 1);
 
-  // Robust independent predictor from the adjusted model: Day 5 vs Day 6, OR 1.70
-  if (biopsyDay === 5) logit += Math.log(1.70);
-
-  // Embryo quality: attenuated because non-significant
-  if (quality === 2) logit += Math.log(0.888) * 0.15;
-  if (quality === 3) logit += Math.log(0.860) * 0.15;
-
-  // Diagnosis: no probability effect because all diagnostic categories were non-significant.
-  // The selected diagnosis is displayed only as an adjusted covariate label.
-
-  const prob = Math.round(100 / (1 + Math.exp(-logit)));
+  const logit = BASELINE_LOGIT + dDay5 + dAmh + dAge + dBmi + dEndom + dQual + dDiag;
+  const prob  = Math.round(100 / (1 + Math.exp(-logit)));
 
   document.getElementById('resultPct').textContent = prob + '%';
 
-  const amhGroup = amh <= 1.0 ? 'Low AMH' : amh <= 3.5 ? 'Normal AMH' : 'High AMH';
+  // AMH bar — scales with deviation from reference
+  const amhPct = barPct(dAmh);
+  document.getElementById('amhBar').style.width = amhPct + '%';
+  document.getElementById('amhDriverBar').style.width = amhPct + '%';
 
-  const diagLabels = {
-    ref: 'Advanced maternal age',
-    aneuploidy: 'Aneuploidy',
-    hi: 'Patient request / HI',
-    mix: 'Mixed indication',
-    tgk: 'Recurrent pregnancy loss',
-    tib: 'Recurrent implantation failure'
-  };
+  // Quality bar
+  const qualPct = barPct(dQual);
+  document.getElementById('qualBar').style.width = qualPct + '%';
+  document.getElementById('qualDriverBar').style.width = qualPct + '%';
+  if (quality === 1) {
+    document.getElementById('qualTag').textContent = 'reference · p=0.382';
+    document.getElementById('qualDriverOR').textContent = 'p = 0.382';
+  } else if (quality === 2) {
+    document.getElementById('qualTag').textContent = 'OR 0.888 · p=0.382';
+    document.getElementById('qualDriverOR').textContent = 'p = 0.382';
+  } else {
+    document.getElementById('qualTag').textContent = 'OR 0.860 · p=0.661';
+    document.getElementById('qualDriverOR').textContent = 'p = 0.661';
+  }
 
-  document.getElementById('resultPills').innerHTML = `
-    <div class="pill p-ns">AMH: ${amhGroup} · unchanged display effect</div>
-    <div class="pill p-ns">Age: ${age} yrs · weak clinical constraint</div>
-    <div class="pill p-ns">BMI: ${bmi} · weak clinical constraint</div>
-    <div class="pill p-ns">Endometrium: ${endom} mm · attenuated effect</div>
-    <div class="pill ${biopsyDay === 5 ? 'p-good' : 'p-warn'}">
-      ${biopsyDay === 5 ? 'Day 5 · OR 1.70' : 'Day 6 · reference'}
-    </div>
-    <div class="pill p-ns">Grade ${quality} · attenuated effect</div>
-    <div class="pill p-ns">${diagLabels[diagnosis]} · adjusted, NS</div>
-  `;
+  // Diag bar
+  const diagPct = barPct(dDiag);
+  document.getElementById('diagDriverBar').style.width = diagPct + '%';
 
-  const box = document.getElementById('resultBox');
-  box.classList.add('show');
-  setTimeout(() => box.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+  // Day bar & message
+  if (transferDay === 5) {
+    document.getElementById('dayBar').style.width = '100%';
+    document.getElementById('dayTag').textContent = 'OR 1.70 · p<0.001';
+    document.getElementById('dayDriverName').textContent = 'Transfer day (Day 5)';
+    document.getElementById('dayDriverBar').style.width = '100%';
+    document.getElementById('dayDriverOR').textContent = 'OR 1.70 ✓';
+    document.getElementById('keyMsg').innerHTML =
+      'Transfer günü bu modelde tek anlamlı bağımsız prediktördür. Day 5 transferi Day 6\'ya göre <strong>OR 1.70</strong> (%95 CI: 1.28–2.27, p &lt; 0.001) avantaj sağlar.';
+  } else {
+    document.getElementById('dayBar').style.width = '100%';
+    document.getElementById('dayTag').textContent = 'reference · p<0.001';
+    document.getElementById('dayDriverName').textContent = 'Transfer day (Day 6)';
+    document.getElementById('dayDriverBar').style.width = '100%';
+    document.getElementById('dayDriverOR').textContent = 'ref ✓';
+    document.getElementById('keyMsg').innerHTML =
+      'Day 6 referans grubu. Day 5\'e kıyasla canlı doğum olasılığı anlamlı olarak düşüktür (OR 1.70, p &lt; 0.001). Diğer tüm değişkenler bu modelde anlamlı prediktör değildir.';
+  }
 }
 
-Chart.defaults.font.family="'DM Sans',sans-serif";
+// Init on load
+recalc();
 
-new Chart(document.getElementById('lbrChart'),{
-  type:'bar',
-  data:{
-    labels:['Low AMH\n≤1.0','Normal AMH\n1.0–3.5','High AMH\n>3.5'],
-    datasets:[
-      {label:'Live Birth %',data:[53.2,53.0,46.2],backgroundColor:'#1e7f74',borderRadius:8},
-      {label:'Clinical Pregnancy %',data:[62.2,61.6,57.0],backgroundColor:'rgba(30,127,116,0.2)',borderRadius:8}
+/* ── CHARTS ── */
+Chart.defaults.font.family = "'DM Sans',sans-serif";
+
+new Chart(document.getElementById('lbrChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Low AMH\n≤1.0', 'Normal AMH\n1.0–3.5', 'High AMH\n>3.5'],
+    datasets: [
+      { label: 'Live Birth %',        data: [53.2, 53.0, 46.2], backgroundColor: '#1e7f74', borderRadius: 8 },
+      { label: 'Clinical Pregnancy %', data: [62.2, 61.6, 57.0], backgroundColor: 'rgba(30,127,116,0.2)', borderRadius: 8 }
     ]
   },
-  options:{
-    responsive:true,
-    plugins:{
-      legend:{labels:{font:{size:11},color:'#1a1a2e',padding:10}},
-      tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { font: { size: 11 }, color: '#1a1a2e', padding: 10 } },
+      tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y}%` } }
     },
-    scales:{
-      y:{beginAtZero:true,max:80,ticks:{callback:v=>v+'%',color:'#6b7a94',font:{size:10}},grid:{color:'#f0f4f8'}},
-      x:{ticks:{color:'#1a1a2e',font:{size:10}},grid:{display:false}}
+    scales: {
+      y: { beginAtZero: true, max: 80,
+           ticks: { callback: v => v + '%', color: '#6b7a94', font: { size: 10 } },
+           grid: { color: '#f0f4f8' } },
+      x: { ticks: { color: '#1a1a2e', font: { size: 10 } }, grid: { display: false } }
     }
   }
 });
 
-new Chart(document.getElementById('responseChart'),{
-  type:'bar',
-  data:{
-    labels:['Low AMH','Normal AMH','High AMH'],
-    datasets:[
-      {label:'Oocytes Retrieved',data:[6.15,11.21,20.05],backgroundColor:'#0f2240',borderRadius:6,yAxisID:'y'},
-      {label:'Biopsied Embryos',data:[2.15,3.11,4.75],backgroundColor:'#c9a84c',borderRadius:6,yAxisID:'y'},
-      {label:'Live Birth Rate %',data:[53.2,53.0,46.2],type:'line',borderColor:'#1e7f74',backgroundColor:'transparent',borderWidth:3,pointRadius:5,pointBackgroundColor:'#1e7f74',yAxisID:'y2',tension:0.3}
+new Chart(document.getElementById('responseChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Low AMH', 'Normal AMH', 'High AMH'],
+    datasets: [
+      { label: 'Oocytes Retrieved', data: [6.15, 11.21, 20.05], backgroundColor: '#0f2240', borderRadius: 6, yAxisID: 'y' },
+      { label: 'Biopsied Embryos',  data: [2.15, 3.11, 4.75],   backgroundColor: '#c9a84c', borderRadius: 6, yAxisID: 'y' },
+      { label: 'Live Birth Rate %', data: [53.2, 53.0, 46.2],
+        type: 'line', borderColor: '#1e7f74', backgroundColor: 'transparent',
+        borderWidth: 3, pointRadius: 5, pointBackgroundColor: '#1e7f74',
+        yAxisID: 'y2', tension: 0.3 }
     ]
   },
-  options:{
-    responsive:true,
-    plugins:{legend:{labels:{font:{size:10},color:'#1a1a2e',padding:8}}},
-    scales:{
-      y:{beginAtZero:true,ticks:{color:'#6b7a94',font:{size:10}},grid:{color:'#f0f4f8'},title:{display:true,text:'Count',color:'#6b7a94',font:{size:10}}},
-      y2:{position:'right',min:30,max:70,ticks:{callback:v=>v+'%',color:'#1e7f74',font:{size:10}},grid:{display:false}},
-      x:{ticks:{color:'#1a1a2e',font:{size:10}},grid:{display:false}}
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { font: { size: 10 }, color: '#1a1a2e', padding: 8 } } },
+    scales: {
+      y:  { beginAtZero: true,
+            ticks: { color: '#6b7a94', font: { size: 10 } },
+            grid: { color: '#f0f4f8' },
+            title: { display: true, text: 'Count', color: '#6b7a94', font: { size: 10 } } },
+      y2: { position: 'right', min: 30, max: 70,
+            ticks: { callback: v => v + '%', color: '#1e7f74', font: { size: 10 } },
+            grid: { display: false } },
+      x:  { ticks: { color: '#1a1a2e', font: { size: 10 } }, grid: { display: false } }
     }
   }
 });
